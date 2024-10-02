@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.bgVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    object-fit: cover;
+}
+
+.container {
+    width: 700px;
+    height: 600px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 1em;
+    background-color: white;
+    z-index: 1;
+}
+
+.left {
+    width: 250px;
+    padding: 1.5em;
+    background-color:#013D50;
+    color: white;
+    border-radius: 0.2em;
+    outline: none;
+}
+
+.left h1 {
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 600;
+    font-size: 3rem;
+    margin-bottom: 0.2em;
+}
+
+.text {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.right {
+    padding: 1.5em;
+    margin-bottom: 20px;
+}
+
+.right h1 {
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 600;
+    font-size: 3rem;
+    margin-bottom: 1em;
+}
+
+.right .userbox input {
+    width: 100%;
+    font-size: 20px;
+    font-family: monospace;
+    color: black;
+    margin-bottom: 20px;
+    text-align: center;
+    border: none;
+    border-bottom: 4px solid black;
+    outline: none;
+    cursor: pointer;
+}
+
+.right .userbox label {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1rem;
+}
+
+.btns {
+    display: flex;
+    gap: 1em;
+}
+
+.btn {
+    padding: 10px 20px;
+    color: white;
+    font-size: 1.5rem;
+    font-family: monospace;
+    background-color: #013D50;
+    border: none;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #365660;
+}
+
+.login {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.agree {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+a {
+    text-decoration: none;
+    color: #3BBAFF;
+}
+
+span {
+    color: #3BBAFF;
+    font-weight: 600;
+    font-size: 1.5rem;
+    font-family: "Rajdhani",sans-serif;
+}
+
+.role-selection {
+    display: flex;
+    gap: 1.5em;
+    margin-bottom: 20px;
+}
+
+.role-selection label {
+    font-size: 1.5rem;
+    font-family: "Rajdhani",sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.role-selection input[type="radio"] {
+    margin-right: 5px;
+}
+
+
+a{
+    text-decoration: none;
+  }
+
+
+ 

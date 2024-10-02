@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body{
+  background-image: url("water2.jpg");
+  background-repeat:no-repeat;
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+
+.container {
+  display: inline-flex;
+  width: 700px;
+  height: 400px;
+  justify-content: center;
+  background-color:#ffff;
+  padding: 2em;
+  border-radius: 2em;
+  box-shadow:0 4px 20px rgba(0, 123, 255, 0.1);;
+  z-index: 1;
+}
+
+.details h1 {
+  margin-bottom: 1.5em;
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: #000;
+}
+
+.details input {
+  width: 100%;
+  margin-top: 0.2em;
+  padding: 10px;
+  height: 50px;
+  color: black;
+  text-align: center;
+  border-radius: 0.5em;
+  font-size: 1.5em;
+  font-family: monospace;
+  font-weight: 500;
+  background-color: #cfe8e3;
+  outline: none;
+  border: 1px solid #cfe8e3;
+}
+
+input:focus {
+  outline: none;
+}
+
+.btns {
+  display: flex;
+  margin-left: 30%;
+  margin-top: 1.5em;
+  gap: 1em;
+}
+
+.btn {
+  position: relative;
+  padding: 10px 20px;
+  color: white;
+  font-size: 1.5rem;
+  font-family: monospace;
+  text-decoration: none;
+  background-color: #013d50;
+  border: none;
+  border-radius: 0.5em;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #365660;
+}
+.login {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  font-family: "Rajdhani", sans-serif;
+}
+span {
+  color: #3BBAFF;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+a{
+  text-decoration: none;
+}

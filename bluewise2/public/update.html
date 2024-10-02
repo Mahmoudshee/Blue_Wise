@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Your Catch</title>
+    <link rel="stylesheet" href="sell-catch.css">
+    <style>
+        /* Style for the update form */
+        .update-form {
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            background: #d9d9d9; /* Light grey background */
+            border: 1px solid #ddd;
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            transition: transform 0.3s; /* Smooth scaling effect */
+        }
+
+        .update-form:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+        }
+
+        .update-form h2 {
+            text-align: center;
+            color: #383838; /* Darker text color */
+        }
+
+        /* Styles for inputs, selects, textareas, and buttons in the update form */
+        .update-form input,
+        .update-form textarea,
+        .update-form button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border-radius: 5px; /* Rounded corners */
+            border: 1px solid #383838; /* Darker border */
+            transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition */
+        }
+
+        .update-form input:focus,
+        .update-form textarea:focus {
+            border-color: #3bbaff; /* Primary focus color */
+            box-shadow: 0 0 5px rgba(59, 186, 255, 0.5); /* Shadow on focus */
+        }
+
+        /* Styles for buttons */
+        .update-form button {
+            background-color: #3bbaff; /* Primary button color */
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+        }
+
+        .update-form button:hover {
+            background-color: #013d50; /* Darker on hover */
+            transform: translateY(-2px); /* Lift effect */
+        }
+
+        /* Style for sale cards */
+        .sale-card {
+            border: 1px solid #ddd;
+            border-radius: 8px; /* Rounded corners */
+            padding: 15px;
+            background-color: #fff; /* White background for cards */
+            position: relative;
+            transition: box-shadow 0.3s, transform 0.3s; /* Smooth transition */
+        }
+
+        .sale-card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+            transform: scale(1.02); /* Slight scaling on hover */
+        }
+
+        .sale-card img {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+            border-radius: 4px; /* Rounded corners for images */
+        }
+
+        .sale-card h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #383838; /* Darker text color */
+        }
+
+        .sale-card p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        /* Link styles in sale cards */
+        .sale-card a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #3bbaff; /* Primary link color */
+            text-decoration: none;
+            transition: color 0.3s, transform 0.3s; /* Smooth transition */
+        }
+
+        .sale-card a:hover {
+            text-decoration: underline;
+            color: #013d50; /* Darker color on hover */
+            transform: scale(1.05); /* Slight scaling on hover */
+        }
+
+        /* Style for delete button */
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #f44336; /* Red for delete */
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+        }
+
+        .delete-btn:hover {
+            background-color: #e53935; /* Darker red on hover */
+            transform: scale(1.1); /* Slight scaling on hover */
+        }
+
+        /* Grid layout for sales cards */
+        .sales-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+            gap: 20px; /* Gap between the grid items */
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Update Form -->
+        <div class="update-form">
+            <h2>Update Your Catch</h2>
+            <input type="file" id="catchImageUpdate" accept="image/*">
+            <input type="text" id="catchTitleUpdate" placeholder="Catch Title">
+            <textarea id="catchDescriptionUpdate" placeholder="Description" rows="4"></textarea>
+            <input type="number" id="catchPriceUpdate" placeholder="Price (KSH)">
+            <input type="datetime-local" id="catchDateTimeUpdate" placeholder="Date and Time">
+            <button id="updateCatchButton">Update Catch</button>
+        </div>
+
+        <div class="sales-grid" id="salesGrid">
+            <!-- Existing sales will be displayed here in a grid -->
+            <div class="sale-card">
+                <button class="delete-btn">Delete</button>
+                <img src="catch1.jpg" alt="Catch Image">
+                <div class="category">Fresh Fish</div>
+                <h2>Freshly Caught Tuna</h2>
+                <p>Freshly caught Tuna available for sale. High quality and ready for pick up.</p>
+                <div>Date & Time: <span class="catch-datetime">2024-09-25T12:00</span></div>
+                <a href="#">Contact Seller</a>
+            </div>
+            <!-- More sale cards can be added here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to handle catch updating
+        document.getElementById('updateCatchButton').addEventListener('click', function () {
+            // Get form input values
+            const imageInput = document.getElementById('catchImageUpdate');
+            const title = document.getElementById('catchTitleUpdate').value;
+            const description = document.getElementById('catchDescriptionUpdate').value;
+            const price = document.getElementById('catchPriceUpdate').value;
+            const dateTime = document.getElementById('catchDateTimeUpdate').value;
+
+            // Validate inputs
+            if (!title || !description || !price || !dateTime) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Create a new FileReader object to read the image if it exists
+            let imageUrl = '';
+            if (imageInput.files.length) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    imageUrl = event.target.result;
+
+                    // Update the existing sale card
+                    updateSaleCard(imageUrl, title, price, description, dateTime);
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            } else {
+                // If no new image is uploaded, just update the text fields
+                updateSaleCard(imageUrl, title, price, description, dateTime);
+            }
+        });
+
+        // Function to update the sale card
+        function updateSaleCard(imageUrl, title, price, description, dateTime) {
+            // Create a new sale card
+            const newSaleCard = document.createElement('div');
+            newSaleCard.classList.add('sale-card');
+
+            // Add content to the new sale card
+            newSaleCard.innerHTML = `
+                <button class="delete-btn">Delete</button>
+                <img src="${imageUrl}" alt="Catch Image">
+                <div class="category">${title}</div>
+                <div class="price">Price: ${price} KSH</div>
+                <h2>${title}</h2>
+                <p>${description}</p>
+                <div>Date & Time: <span class="catch-datetime">${dateTime}</span></div>
+                <a href="#">Contact Seller</a>
+            `;
+
+            // Append the new sale card to the grid
+            document.getElementById('salesGrid').appendChild(newSaleCard);
+
+            // Reset the form
+            document.querySelector('.update-form').reset();
+        }
+    </script>
+</body>
+

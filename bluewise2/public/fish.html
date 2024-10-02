@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blue Wise Dashboard</title>
+  <link rel="stylesheet" href="Researchers.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+      /* Additional styles for iframe */
+      #mapFrame, #botFrame, #sellFrame, #updateFrame {
+          width: 100%;
+          height: 600px; /* Adjust height as necessary */
+          border: none; /* No border for iframe */
+      }
+      .hidden {
+          display: none; /* CSS class for hiding elements */
+      }
+      /* Style for the content area */
+      .content {
+          padding: 20px;
+      }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="navigation">
+      <ul>
+        <li>
+          <a href="#">
+            <span class="icon"><ion-icon name="fish-outline"></ion-icon></span>
+            <span class="title">Blue Wise</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <!-- <span class="icon"><ion-icon name="camera-outline"></ion-icon></span> -->
+            <!-- <span class="title">Catch & Capture</span> -->
+          </a>
+        </li>
+        <li>
+          <a href="#" id="updateLink">
+            <span class="icon"><ion-icon name="add-circle-outline"></ion-icon></span>
+            <span class="title">Update</span>
+          </a>
+        </li>
+        <li>
+            <a href="#" id="proximityCheckLink">
+              <span class="icon"><ion-icon name="locate-outline"></ion-icon></span>
+              <span class="title">Proximity Check</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="sellCatchLink">
+              <span class="icon"><ion-icon name="cart-outline"></ion-icon></span>
+              <span class="title">Sell This catch</span>
+            </a>
+        </li>
+
+        <li>
+          <a href="#" id="logoutButton">
+            <span class="icon"><ion-icon name="log-in-outline"></ion-icon></span>
+            <span class="title">Logout</span>
+          </a>
+      </li>
+      </ul>
+    </div>
+    <div class="main">
+      <div class="topbar">
+        <div class="toggle">
+          <ion-icon name="menu-outline"></ion-icon>
+        </div>
+        <div class="search">
+          <label>
+            <input type="text" placeholder="Search here">
+            <ion-icon name="search-outline"></ion-icon>
+          </label>
+        </div>
+        <div class="user">
+            <a href="">
+                <img src="water2.jpg" alt="Profile Picture" class="profile-pic rounded-circle" width="50" height="50">
+            </a>
+        </div>
+      </div>
+      
+      <!-- Map iframe -->
+      <div id="mapContainer" class="hidden">
+          <iframe id="mapFrame" src="map.html"></iframe>
+      </div>
+
+      <!-- Sell Catch iframe -->
+      <div id="sellCatch" class="content hidden">
+        <iframe id="sellFrame" src="sell_this.html"></iframe>
+      </div>
+
+      <!-- Update iframe -->
+      <div id="updateContainer" class="content hidden">
+          <iframe id="updateFrame" src="update.html"></iframe>
+      </div>
+      
+      <!-- Bot iframe -->
+      <div id="botContainer">
+          <iframe id="botFrame" src="blue wise bot/bots.html"></iframe>
+      </div>
+      
+    </div>
+  </div>
+
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let toggle = document.querySelector(".toggle");
+      let navigation = document.querySelector(".navigation");
+      let main = document.querySelector(".main");
+
+      toggle.addEventListener("click", function () {
+        navigation.classList.toggle("active");
+        main.classList.toggle("active");
+      });
+
+      let list = document.querySelectorAll(".navigation li");
+
+      function activeLink() {
+        list.forEach((item) => item.classList.remove("hovered"));
+        this.classList.add("hovered");
+      }
+
+      list.forEach((item) => {
+        item.addEventListener("mouseenter", activeLink);
+      });
+
+      // Show the map when "Proximity check" is clicked
+      document.getElementById('proximityCheckLink').addEventListener('click', function(e) {
+          e.preventDefault();
+          document.getElementById('mapContainer').classList.remove('hidden'); // Show the map container
+          document.getElementById('sellCatch').classList.add('hidden'); // Hide the sell catch container
+          document.getElementById('updateContainer').classList.add('hidden'); // Hide the update container
+      });
+
+      // Show the sell catch page when "Sell this catch" is clicked
+      document.getElementById('sellCatchLink').addEventListener('click', function(e) {
+          e.preventDefault();
+          document.getElementById('sellCatch').classList.remove('hidden'); // Show the sell catch container
+          document.getElementById('mapContainer').classList.add('hidden'); // Hide the map container
+          document.getElementById('updateContainer').classList.add('hidden'); // Hide the update container
+      });
+
+      // Show the update page when "Update" is clicked
+      document.getElementById('updateLink').addEventListener('click', function(e) {
+          e.preventDefault();
+          document.getElementById('updateContainer').classList.remove('hidden'); // Show the update container
+          document.getElementById('sellCatch').classList.add('hidden'); // Hide the sell catch container
+          document.getElementById('mapContainer').classList.add('hidden'); // Hide the map container
+      });
+    });
+  </script>
+  <script>
+    document.getElementById('logoutButton').addEventListener('click', async (event) => {
+        event.preventDefault();
+        const response = await fetch('/logout', { method: 'POST' });
+        const data = await response.json();
+        if (data.success) {
+            window.location.href = '/login';
+        } else {
+            alert('Logout failed. Please try again.');
+        }
+    });
+  </script>
+</body>
+</html>
+

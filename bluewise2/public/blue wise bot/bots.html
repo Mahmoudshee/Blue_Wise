@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Popup Chatbot</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Chatbot Container -->
+  <div class="chatbot-container">
+    <div class="chatbot-header">
+      <span>Chat with us</span>
+      <button id="close-chatbot">−</button>
+    </div>
+    <div class="chatbot-body">
+      <div class="chat-list"></div>
+      <form class="typing-form">
+        <input type="text" class="typing-input" placeholder="Type your message..." required />
+        <button type="submit" class="send-btn">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Chatbot Toggle Button with Icon -->
+  <button id="open-chatbot" class="chatbot-toggle-btn">
+    💬
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot | The Coding Hubs</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="https://cdn.some-library.com/google-generative-ai.min.js"></script>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-header a{
+            text-decoration:none;
+            color: white;
+        }
+
+        .copyright{
+            font-size:12px;
+            text-align: center;
+        }
+
+        .copyright a {
+            text-decoration:none;
+            color: #343c41;
+        }
+
+        #chatbot-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 15px;
+            border: none;
+            background-color: #1087FF;
+            color: #fff;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1001; /* Ensure the button is above the chatbot popup */
+        }
+
+        #chatbot-toggle-btn:hover {
+            background-color: #0074CC;
+        }
+
+        .chatbot-popup {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            max-width: 90%;
+            z-index: 1000;
+        }
+
+        .chat-header {
+            background-color: #1087FF;
+            color: #fff;
+            padding: 15px 20px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #close-btn {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .chat-box {
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 15px 20px;
+        }
+
+        .chat-input {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        #user-input {
+            font-family: "Poppins";
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            outline: none;
+        }
+
+        #send-btn {
+            font-family: "Poppins", sans-serif;
+            padding: 10px 20px;
+            border: none;
+            background-color: #1087FF;
+            color: #fff;
+            border-radius: 12px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #send-btn:hover {
+            background-color: #0074CC;
+        }
+
+        .user-message {
+            background-color: #f3f3f3;
+            color: #333;
+            padding: 14px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            margin-top: 15px;
+            margin-left: 10px; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex-direction: row-reverse;
+        }
+
+        .user-message::before {
+            content: "\1F468"; 
+            position: absolute;
+            bottom: -17px;
+            right: -20px;
+            margin-bottom: 7px;
+            font-size: 20px;
+            background-color: #1087FF;
+            color: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .bot-message {
+            background-color: #1087FF;
+            color: #fff;
+            padding: 14px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            margin-top: 15px;
+            align-self: flex-start; 
+            margin-right: 10px; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex-direction: column; 
+        }
+
+        .bot-message::before {
+            content: "\1F916";
+            position: absolute;
+            bottom: -17px;
+            left: -14px;
+            margin-bottom: 4px;
+            font-size: 20px;
+            background-color: #1087FF;
+            color: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .button-container button {
+            padding: 10px 50px;
+            border: none;
+            background-color: #1087FF;
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-container button:hover {
+            background-color: #0074CC;
+        }
+        .chatbot-popup {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            max-width: 90%;
+            z-index: 1000;
+        }
+
+        .chat-box {
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 15px 20px;
+        }
+
+        .chat-input {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        #user-input {
+            font-family: "Poppins";
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            outline: none;
+        }
+
+        #send-btn {
+            font-family: "Poppins", sans-serif;
+            padding: 10px 50px;
+            border: none;
+            background-color: #1087FF;
+            color: #fff;
+            border-radius: 12px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #send-btn:hover {
+            background-color: #0074CC;
+        }
+    </style>
+</head>
+<body>
+    <button id="chatbot-toggle-btn"><img src="chatbot.png" alt="buttonpng" /></button>
+    <div class="chatbot-popup" id="chatbot-popup">
+        <div class="chat-header">
+            <span>Chatbot | <a href="https://www.thecodinghubs.com/" target="_blank">The Coding Hubs</a></span>
+            <button id="close-btn">&times;</button>
+        </div>
+        <div class="chat-box" id="chat-box"></div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type a message...">
+            <button id="send-btn">Send</button>
+        </div>
+        <div class="copyright">
+            <a href="https://www.thecodinghubs.com/" target="_blank">Build By Coding Hubs</a>
+        </div>
+    </div>
+    <script>
+        const chatbotPopup = document.getElementById("chatbot-popup");
+        const chatbotToggleBtn = document.getElementById("chatbot-toggle-btn");
+        const closeBtn = document.getElementById("close-btn");
+        const chatBox = document.getElementById("chat-box");
+        const userInput = document.getElementById("user-input");
+        const sendButton = document.getElementById("send-btn");
+    
+        // Toggle chatbot visibility
+        chatbotToggleBtn.addEventListener("click", () => {
+            chatbotPopup.style.display = chatbotPopup.style.display === "none" || chatbotPopup.style.display === "" ? "block" : "none";
+        });
+    
+        // Close the chatbot popup
+        closeBtn.addEventListener("click", () => {
+            chatbotPopup.style.display = "none";
+        });
+    
+        // Send user message to the chat box
+        sendButton.addEventListener('click', function() {
+            const userMessage = userInput.value.trim();
+    
+            if (userMessage !== '') {
+                userInput.value = ''; 
+    
+                const userMessageElement = document.createElement('div');
+                userMessageElement.className = 'user-message';
+                userMessageElement.textContent = userMessage;
+                chatBox.appendChild(userMessageElement);
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+    
+</body>
+</html>

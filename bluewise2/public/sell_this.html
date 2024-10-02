@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Your Catch</title>
+    <style>
+        /* Simplified CSS for the sale form */
+        .sale-form {
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 400px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .sale-form:hover {
+            transform: translateY(-5px);
+        }
+
+        .sale-form h2 {
+            text-align: center;
+            color: #383838;
+        }
+
+        .sale-form input,
+        .sale-form button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #383838;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .sale-form input:focus {
+            border-color: #3bbaff;
+            box-shadow: 0 0 5px rgba(59, 186, 255, 0.5);
+        }
+
+        .sale-form button {
+            background-color: #3bbaff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .sale-form button:hover {
+            background-color: #013d50;
+            transform: translateY(-2px);
+        }
+
+        .encrypted-location {
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        /* Styling for sale cards in a row */
+        .sales-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .sale-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: #fff;
+            width: 300px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .sale-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .sale-card img {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        .sale-card h2 {
+            font-size: 18px;
+            color: #383838;
+        }
+
+        .sale-card .price {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .sale-card .location-encrypted {
+            color: red;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sale Form -->
+        <div class="sale-form">
+            <h2>Post a Catch for Sale</h2>
+            <input type="text" id="catchTitle" placeholder="Catch Title" required>
+            <input type="number" id="catchPrice" placeholder="Price (KSH)" required>
+            <input type="file" id="catchImageUpload" accept="image/*" required>
+            <button id="postCatchButton">Post Catch</button>
+            <!-- Encrypted location notice -->
+            <div class="encrypted-location">
+                Location is encrypted until payment is made.
+            </div>
+        </div>
+
+        <!-- Sales Grid -->
+        <div class="sales-grid" id="salesGrid">
+            <!-- Example of a posted catch -->
+            <div class="sale-card">
+                <img src="catch1.jpg" alt="Catch Image">
+                <h2>Fresh Tuna</h2>
+                <p class="price">1500 KSH</p>
+                <p class="location-encrypted">Location: [Encrypted until payment]</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle new catch posting
+        document.getElementById('postCatchButton').addEventListener('click', function () {
+            const title = document.getElementById('catchTitle').value;
+            const price = document.getElementById('catchPrice').value;
+            const imageInput = document.getElementById('catchImageUpload');
+
+            // Validate inputs
+            if (!imageInput.files.length || !title || !price) {
+                alert('Please fill in all fields and select an image.');
+                return;
+            }
+
+            // Read the selected image file
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const imageUrl = event.target.result;
+
+                // Create a new sale card
+                const newSaleCard = document.createElement('div');
+                newSaleCard.classList.add('sale-card');
+
+                newSaleCard.innerHTML = `
+                    <img src="${imageUrl}" alt="Catch Image">
+                    <h2>${title}</h2>
+                    <p class="price">${price} KSH</p>
+                    <p class="location-encrypted">Location: [Encrypted until payment]</p>
+                `;
+
+                // Append the new sale card to the grid
+                document.getElementById('salesGrid').appendChild(newSaleCard);
+
+                // Clear the form
+                document.getElementById('catchTitle').value = '';
+                document.getElementById('catchPrice').value = '';
+                document.getElementById('catchImageUpload').value = '';
+            };
+
+            // Read the image file as a data URL
+            reader.readAsDataURL(imageInput.files[0]);
+        });
+    </script>
+</body>
+
+</html>

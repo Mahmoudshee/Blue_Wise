@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Your Location & Proximity</title>
+    <style>
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #d9d9d9;
+}
+
+/* Main container */
+.container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 40px auto; 
+    background: white; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+}
+
+
+form {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+input {
+    padding: 10px;
+    margin: 10px 0; 
+    width: 100%; 
+    max-width: 300px;
+    border: 1px solid #013d50;
+    font-size: 16px;
+    background-color: #f9f9f9; 
+    color: #383838;
+    transition: border-color 0.3s; 
+}
+
+input:focus {
+    border-color: #3bbaff;
+    outline: none; 
+}
+
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #3bbaff; 
+    color: white; 
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+    flex: 1;
+    transition: background-color 0.3s, transform 0.3s; 
+}
+
+button:hover {
+    background-color: #013d50; 
+    transform: translateY(-2px); 
+}
+
+
+#map {
+    width: 100%;
+    height: 300px; 
+    border: 2px solid #013d50; 
+    border-radius: 4px;
+    margin: 20px 0; 
+}
+
+
+.message {
+    font-size: 18px;
+    color: #383838;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.alert {
+    color: #d9534f;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.safe {
+    color: #5cb85c; 
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message">Enter your coordinates to check your location on the map and proximity to restricted zones:</div>
+        
+        Input Form 
+        <form id="locationForm">
+            <input type="text" id="latitude" placeholder="Enter Latitude" required>
+            <input type="text" id="longitude" placeholder="Enter Longitude" required>
+            <div class="button-container">
+                <button type="submit">Check Location</button>
+                <button type="button" id="checkProximity">Check Proximity</button>
+            </div>
+        </form>
+    
+        <div id="map"></div>
+
+        <div id="proximityMessage"></div>
+    </div>
+
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs9215oLnNljfdQqiUA788qsLsz7cNkp4&callback=initMap">
+    </script>
+
+    <script src="restrictedZones.js"></script>
+
+    <script>
+        var map, marker;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 0, lng: 0 }, 
+                zoom: 2 
+            });
+            marker = new google.maps.Marker({
+                map: map,
+                visible: false
+            });
+        }
+function checkProximity(lat, lng) {
+    const proximityMessage = document.getElementById('proximityMessage');
+    proximityMessage.innerHTML = ''; // Clear any previous messages
+
+    const userLocation = { lat: lat, lng: lng };
+    let isRestricted = false;
+    console.log('Checking proximity for:', userLocation);
+    restrictedZones.forEach(zone => {
+        console.log('Checking against zone:', zone);
+        if (Math.abs(zone.lat - userLocation.lat) < 0.001 && Math.abs(zone.lng - userLocation.lng) < 0.001) {
+            isRestricted = true;
+        }
+    });
+
+    if (isRestricted) {
+        alert("Warning: You are within a restricted area (No Fishing Zone)!");
+        proximityMessage.innerHTML = '<div class="alert">Warning: You are within a restricted area (No Fishing Zone)!</div>';
+    } else {
+        alert("You are in a safe zone.");
+        proximityMessage.innerHTML = '<div class="safe">You are in a safe zone.</div>';
+    }
+}
+
+        document.getElementById('locationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var latitude = parseFloat(document.getElementById('latitude').value);
+            var longitude = parseFloat(document.getElementById('longitude').value);
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+                var userLocation = { lat: latitude, lng: longitude };
+                map.setCenter(userLocation);
+                marker.setPosition(userLocation);
+                marker.setVisible(true);
+                map.setZoom(15);
+            } else {
+                alert('Please enter valid numeric coordinates.');
+            }
+        });
+        document.getElementById('checkProximity').addEventListener('click', function() {
+            // Get latitude and longitude values from input fields
+            var latitude = parseFloat(document.getElementById('latitude').value);
+            var longitude = parseFloat(document.getElementById('longitude').value);
+
+            // Ensure valid numeric input before checking proximity
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+                checkProximity(latitude, longitude);
+            } else {
+                alert('Please enter valid numeric coordinates.');
+            }
+        });
+    </script>
+<script>
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+
+</script>
+</body>
+</html>
+
+
