@@ -11,7 +11,7 @@ let isResponseGenerating = false;
 let isChatOpen = false;
 
 // API Configuration
-const API_KEY = "AIzaSyDt08K4c2pt0sJSOfDuNAHep7Hp-Qt1P0o"; // Your API key here
+const API_KEY = ""; // Your API key here
 const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
 /* =====================================
