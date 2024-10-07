@@ -33,7 +33,7 @@ document
 
     reader.onloadend = async function () {
       const base64Image = reader.result.split(",")[1];
-      const apiKey = "AIzaSyDV7AWgfuD1f3kke1aKDrGG-vRWlLr4Zzs";
+      const apiKey = "";
 
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
